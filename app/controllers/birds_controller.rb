@@ -44,6 +44,18 @@ class BirdsController < ApplicationController
     end
   end
 
+  # DELETE /birds/:id
+  def destroy
+    bird = Bird.find_by(id:params[:id])
+    if bird
+      bird.destroy
+      # head :no_content # does not return JSON, will cause fetch to error out if response is asked for
+      render json: {} # sends empty JSON
+    else
+      render json: { error: 'Bird not found' }, status: :not_found
+    end
+  end
+
   private
 
   def bird_params
